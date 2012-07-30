@@ -100,6 +100,13 @@ case "$1" in
 	repo_sync master
 	;;
 
+"htcleo")
+        GITREPO="git://github.com/manhthiep/b2g-manifest.git"
+	echo DEVICE=htc_leo >> .tmp-config &&
+        echo LUNCH=htc_leo-userdebug >> .tmp-config &&
+	repo_sync htcleo
+	;;
+
 *)
 	echo Usage: $0 \(device name\)
 	echo
@@ -111,6 +118,7 @@ case "$1" in
 	echo - pandaboard
 	echo - emulator
 	echo - emulator-x86
+        echo - htcleo
 	exit -1
 	;;
 esac
