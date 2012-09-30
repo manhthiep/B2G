@@ -50,6 +50,7 @@ fi
 
 echo MAKE_FLAGS=-j$((CORE_COUNT + 2)) > .tmp-config
 echo GECKO_OBJDIR=$PWD/objdir-gecko >> .tmp-config
+echo DEVICE_NAME=$1 >> .tmp-config
 
 case "$1" in
 "galaxy-s2")
@@ -64,10 +65,22 @@ case "$1" in
 	(cd device/samsung/maguro && ./download-blobs.sh)
 	;;
 
+"optimus-l5")
+	echo DEVICE=m4 >> .tmp-config &&
+	repo_sync m4 &&
+	(cd device/lge/m4 && ./extract-files.sh)
+	;;
+
 "nexus-s")
 	echo DEVICE=crespo >> .tmp-config &&
 	repo_sync crespo &&
 	(cd device/samsung/crespo && ./download-blobs.sh)
+	;;
+
+"nexus-s-4g")
+	echo DEVICE=crespo4g >> .tmp-config &&
+	repo_sync crespo4g &&
+	(cd device/samsung/crespo4g && ./download-blobs.sh)
 	;;
 
 "otoro_m4-demo")
@@ -76,10 +89,10 @@ case "$1" in
     (cd device/qcom/otoro && ./extract-files.sh)
     ;;
 
-"otoro")
-	echo DEVICE=otoro >> .tmp-config &&
+"otoro"|"unagi")
+	echo DEVICE=$1 >> .tmp-config &&
 	repo_sync otoro &&
-	(cd device/qcom/otoro && ./extract-files.sh)
+	(cd device/qcom/$1 && ./extract-files.sh)
 	;;
 
 "pandaboard")
@@ -114,7 +127,9 @@ case "$1" in
 	echo - galaxy-s2
 	echo - galaxy-nexus
 	echo - nexus-s
+	echo - nexus-s-4g
 	echo - otoro
+	echo - unagi
 	echo - pandaboard
 	echo - emulator
 	echo - emulator-x86
